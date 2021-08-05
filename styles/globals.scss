@@ -1,0 +1,68 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  color: white;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+  max-width: 100%;
+  input,
+  label,
+  button {
+    padding: 0.5rem 0;
+    border: none;
+    outline: none;
+    flex: 1;
+    margin-bottom: 1rem;
+  }
+
+  input {
+    border-bottom: 2px white solid;
+    font-size: 18px;
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 50%);
+    }
+    &::after {
+      transition: 0.2s;
+      height: 2px;
+      width: 0px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    &:hover {
+      &::after {
+        width: 100%;
+        background: lime;
+      }
+    }
+  }
+
+  input,
+  button {
+    color: white;
+    background: none;
+  }
+
+  button {
+    cursor: pointer;
+    font-size: 27px;
+    color: lime;
+  }
+}
