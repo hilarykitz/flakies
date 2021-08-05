@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { ThemeContext } from "../contexts/ThemeContext";
+import { ThemeContext } from "../providers/ThemeContext";
 import styles from './Toggle.module.scss';
 import classNames from 'classnames';
 

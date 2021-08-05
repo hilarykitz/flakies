@@ -1,0 +1,184 @@
+"The query root of Quiz"
+type Query {
+  "Query for a Quiz"
+  getQuiz(organizationId: ID!, id: ID!, pubDate: Date): [Quiz]
+}
+
+"Argument for getQuiz query"
+input GetQuizInput {
+  "Organisation ID"
+  organizationId: ID!
+
+  "Quiz id"
+  id: ID
+
+  "Page of Quizzes"
+  page: Int
+
+  "Limit of Quizzes"
+  limit: Int
+
+  "Filter for Quizzes"
+  filter: QuizFilterInput
+
+  "Sort for Quizzes"
+  sort: QuizSortInput
+}
+
+# "The Mutator of Quiz"
+type Mutation {
+  "Updates a quiz with given ID, if ID doesn't exist, then insert it"
+  upsertQuiz(input: UpsertQuizInput!): Quiz!
+    @resolver(name: "upsert_quiz", paginated: true)
+}
+
+type Answer @embedded {
+  allowed: Boolean
+  text: String
+}
+
+input AnswerInput {
+  allowed: Boolean
+  text: String
+}
+
+type Clue @embedded {
+  sequence: Int
+  text: String
+}
+
+input ClueInput {
+  sequence: Int
+  text: String
+}
+
+type Question @embedded {
+  sequence: Int
+  text: String
+  answers: [Answer!]
+  clues: [Clue!]
+}
+
+input QuestionInput {
+  sequence: Int
+  text: String
+  answers: [AnswerInput!]
+  clues: [ClueInput!]
+}
+
+"A Quiz"
+type Quiz {
+  "The id of the Quiz"
+  id: ID!
+
+  "The organizationId of the Quiz"
+  organizationId: ID!
+
+  "The pubDate of the Quiz"
+  pubDate: Date
+
+  "The title of the Quiz"
+  title: String
+
+  "The byline of the quiz"
+  byline: [String!]!
+
+  "List of node types to filter by"
+  relatedLink: String
+
+  "Quiz errata"
+  errata: String
+
+  "the questions for the quiz"
+  questions: [Question!]!
+}
+
+"The input for filtering quizzes"
+input QuizFilterInput {
+  "The quiz id to filter"
+  quiz: IDFilterInput
+
+  "The pubDate to filter on"
+  pubDate: DateFilterInput
+}
+
+"Ways to sort quizzes"
+enum QuizSortFieldInput {
+  "PubDate"
+  PUB_DATE
+
+  "Title"
+  TITLE
+}
+
+"The input for sorting quizzes"
+input QuizSortInput {
+  "The field to sort on"
+  field: QuizSortFieldInput
+
+  "The order for the sort"
+  order: SORT_ORDER = ASC
+}
+
+"Input values for a quiz upsert"
+input QuizInput {
+  id: ID!
+  organizationId: ID!
+  pubDate: Date!
+  title: String!
+  byline: [String!]
+  relatedLink: String
+  errata: String
+  questions: [QuestionInput]!
+}
+
+"The upsert quiz input"
+input UpsertQuizInput {
+  "The organizationId of the Quiz"
+  organizationId: ID!
+
+  "The Quiz to be added/updated"
+  quizInput: QuizInput!
+}
+
+"sort primitives"
+enum SORT_ORDER {
+  "Ascending"
+  ASC
+
+  "Descending"
+  DESC
+}
+
+"filter primitives"
+input IDFilterInput {
+  "Field equals ID"
+  eq: ID
+
+  "Field is in a set of IDs"
+  in: [ID!]
+}
+
+"A filter for date values"
+input DateFilterInput {
+  "Field equals date"
+  eq: Date
+
+  "Field is greater than date"
+  gt: Date
+
+  "Field is greater than or equal to date"
+  gte: Date
+
+  "Field is less than date"
+  lt: Date
+
+  "Field is less than or equal to date"
+  lte: Date
+
+  "Is the latest date of the collection"
+  isMax: Boolean
+
+  "Is the earliest date of the collection"
+  isMin: Boolean
+}
