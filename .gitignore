@@ -1,5 +1,5 @@
 node_modules
 .DS_Store
-*.webpack.hot-update.json
+**/**/*.webpack.hot-update.json
 .env
 .env.local
