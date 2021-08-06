@@ -22,7 +22,7 @@ export const Page = ({ children }) => {
           id: '81a0d11d-844b-4bad-ac33-d8c8bf4718fc',
           organizationId: '81ce7c9f-e1e9-4ddc-a457-47987d6b3158',
           byline: 'Adam Wika',
-          title: 'Hello',
+          title: 'My new thing',
           pubDate: '2021-08-05',
           questions: [
             {
