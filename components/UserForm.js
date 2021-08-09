@@ -13,14 +13,15 @@ export const UserForm = () => {
   //   useQuery(GET_QUIZ_BY_ID);
 
   const [quizState, setQuizState] = useState({
-    title: 'Name Drop',
+    title: '',
     byline: '',
     errata: '',
     pubDate: '',
     clue1: '',
     clue2: '',
     clue3: '',
-    answers: [],
+    clue4: '',
+    answers: '',
     organizationId: ORG_ID,
     id: uuidv4(),
   });
@@ -36,7 +37,6 @@ export const UserForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(quizState);
     // TODO: const quizExists = getQuizById();
     const {
       title,
@@ -49,13 +49,17 @@ export const UserForm = () => {
       clue1,
       clue2,
       clue3,
+      clue4,
     } = quizState;
 
     const buildClues = () =>
-      [clue1, clue2, clue3].map((c, i) => ({
+      [clue1, clue2, clue3, clue4].map((c, i) => ({
         text: c,
         sequence: i,
       }));
+
+    const buildAnswers = () =>
+      answers.split(',').map((answer) => ({ text: answer, allowed: true }));
 
     addQuiz({
       variables: {
@@ -69,12 +73,7 @@ export const UserForm = () => {
           questions: [
             {
               clues: buildClues(),
-              answers: [
-                {
-                  text: 'demo answer',
-                  allowed: true,
-                },
-              ],
+              answers: buildAnswers(),
             },
           ],
         },
@@ -90,7 +89,7 @@ export const UserForm = () => {
         <input
           autoComplete="off"
           name="title"
-          placeholder="title"
+          placeholder="Title"
           value={quizState.title}
           onChange={handleChange}
         />
@@ -107,33 +106,27 @@ export const UserForm = () => {
           autoComplete="off"
           name="pubDate"
           value={quizState.pubDate}
-          placeholder="Pub Date (yyyy-mm-dd)"
+          placeholder="Pub date (yyyy-mm-dd)"
           onChange={handleChange}
         />
-        &nbsp;
-        <input
-          autoComplete="off"
-          name="clue1"
-          value={quizState.clues}
-          placeholder="Clue 1"
-          onChange={handleChange}
-        />
-        &nbsp;
-        <input
-          autoComplete="off"
-          name="clue2"
-          value={quizState.clues}
-          placeholder="Clue 2"
-          onChange={handleChange}
-        />
-        &nbsp;
-        <input
-          autoComplete="off"
-          name="clue3"
-          value={quizState.clues}
-          placeholder="Clue 3"
-          onChange={handleChange}
-        />
+        <br />
+        {[
+          quizState.clue1,
+          quizState.clue2,
+          quizState.clue3,
+          quizState.clue4,
+        ].map((clue, i) => (
+          <>
+            &nbsp;
+            <input
+              autoComplete="off"
+              name={`clue${i + 1}`}
+              value={clue}
+              placeholder={`Clue ${i + 1}`}
+              onChange={handleChange}
+            />
+          </>
+        ))}
         &nbsp;
         <input
           autoComplete="off"
