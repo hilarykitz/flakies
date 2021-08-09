@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-image: linear-gradient(to top right, #16202d, #161717, #0f031f);
 
   &.day {
